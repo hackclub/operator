@@ -1,3 +1,5 @@
 export default async (req, res) => {
-  console.log('Request: ', req)
+  console.log('Request Body:', req.body)
+  
+  return res.json({ok: true})
 }
