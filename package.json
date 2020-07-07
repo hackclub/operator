@@ -12,6 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@slack/events-api": "^2.3.3",
+    "airtable-plus": "^1.0.4",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
     "next": "^9.2.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0"
