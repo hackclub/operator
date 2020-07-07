@@ -1,3 +1,3 @@
 export default async (req, res) => {
-  console.log('HELLO THIS IS APP :)');
+  console.log('Request: ', req)
 }
