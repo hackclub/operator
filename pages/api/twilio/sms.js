@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { SlackWebClient } = require('@slack/web-api')
+const { SlackWebClient: WebClient } = require('@slack/web-api')
 
 const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
