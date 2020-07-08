@@ -1,1 +1,0 @@
-{"version":3,"file":"static/webpack/static/development/pages/index.js.1de9967c6feed37737ea.hot-update.js","sources":["webpack:///./pages/index.js"],"sourcesContent":["function HomePage() {\n  return <div>Welcome to Next.js!</div>\n}\n\nexport default HomePage"],"mappings":";;;;;;;;;;;;;;;;;AAAA;AACA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACA;AACA;AACA;;;;A","sourceRoot":""}
