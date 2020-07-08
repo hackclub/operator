@@ -6,7 +6,7 @@ const botSpamId = 'C0P5NE354'
 
 const generateTokenRequestURL = (userId) => {
   const scopes = ['chat:write', 'files:write']
-  https://slack.com/oauth/v2/authorize?scope=incoming-webhook,commands&client_id=3336676.569200954261
+  //https://slack.com/oauth/v2/authorize?scope=incoming-webhook,commands&client_id=3336676.569200954261
 }
 
 export default async (req, res) => {
