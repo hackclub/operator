@@ -12,7 +12,7 @@ const generateTokenRequestURL = (userId) => {
 export default async (req, res) => {
   console.log('Request Body:', req.body)
   const {
-    text: 'Body',
+    // text: 'Body',
     fromNumber: 'From',
     mediaCount: 'NumMedia' = 0,
   } = req.body
