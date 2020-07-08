@@ -2,6 +2,18 @@ const _ = require('lodash')
 const { WebClient: SlackWebClient } = require('@slack/web-api')
 const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
+const http = require('http');
+const express = require('express');
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
+
+ (req, res) => {
+  const twiml = new MessagingResponse();
+
+  twiml.message('hello');
+
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+};
 
 /* TODO: recieve msg from someone, desplay msg saying they're not signed up for operator after checking an airtable then send slack URL with number in it */ 
 
