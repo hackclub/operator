@@ -12,10 +12,10 @@ const generateTokenRequestURL = (userId) => {
 export default async (req, res) => {
   console.log('Request Body:', req.body)
   const {
-    text: 'Body',
-    fromNumber: 'From',
-    mediaCount: 'NumMedia' = 0,
-  } = req.body;
+    text: Body,
+    fromNumber: From,
+    mediaCount: NumMedia = 0,
+  } = req.body
   
   if (mediaCount) {
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
