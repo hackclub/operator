@@ -1,16 +1,29 @@
 const _ = require('lodash')
 const { WebClient: SlackWebClient } = require('@slack/web-api')
+const AirtablePlus = require('airtable-plus')
 
 const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
 
-const generateTokenRequestURL = (userId) => {
-  return 'https://slack.com/oauth/v2/authorize?scope=chat:write&client_id=2210535565.1220598825398&redirect_uri=https://operator-bot-hackclub.herokuapp.com/api/slack/authuser'
-}
-
-
 export default async (req, res) => {
   console.log('Request Body:', req)
+  
+  // Get query string from URL (and return empty string if none exists)
+  const query = [...req.url.split('?'), ''][1]
+  
+  
+  if (query == '') return res.json({ok: false, error: 'No query string provided'})
+  
+  // Turn all query string parameters into an object
+  const params = _.fromPairs(_.map(query.split('&'), v => v.split('=')))
+
+  const {
+    phone,
+    code,
+    state
+  } = params
+  
+  console.log('Auth Params: ', params)
 
   return res.json({ok: true})
 }      

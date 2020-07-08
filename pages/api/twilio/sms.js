@@ -1,12 +1,12 @@
 const _ = require('lodash')
 const { WebClient: SlackWebClient } = require('@slack/web-api')
-
 const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
 
-const generateTokenRequestURL = (userId) => {
-  const scopes = ['chat:write', 'files:write']
-  //https://slack.com/oauth/v2/authorize?scope=incoming-webhook,commands&client_id=3336676.569200954261
+/* TODO: recieve msg from someone, desplay msg saying they're not signed up for operator after checking an airtable then send slack URL with number in it */ 
+
+const generateTokenRequestURL = (phoneNumber) => {
+  return 'https://slack.com/oauth/v2/authorize?scope=chat:write&client_id=2210535565.1220598825398&redirect_uri=https://operator-bot-hackclub.herokuapp.com/api/slack/authuser?phone='+phoneNumber
 }
 
 export default async (req, res) => {
