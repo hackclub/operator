@@ -10,7 +10,7 @@ const generateTokenRequestURL = (userId) => {
 
 
 export default async (req, res) => {
-  console.log('Request Body:', req.body)
+  console.log('Request Body:', req)
 
   return res.json({ok: true})
 }      
