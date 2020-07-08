@@ -15,7 +15,7 @@ export default async (req, res) => {
     text: 'Body',
     fromNumber: 'From',
     mediaCount: 'NumMedia' = 0,
-  }
+  } = req.body
   
   if (mediaCount) {
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
