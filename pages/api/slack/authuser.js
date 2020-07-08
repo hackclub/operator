@@ -5,7 +5,7 @@ const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
 
 const generateTokenRequestURL = (userId) => {
-  https://slack.com/oauth/v2/authorize?scope=chat:write&client_id=2210535565.1220598825398&redirect_uri=https://operator-bot-hackclub.herokuapp.com/api/slack/authuser.js
+  return 'https://slack.com/oauth/v2/authorize?scope=chat:write&client_id=2210535565.1220598825398&redirect_uri=https://operator-bot-hackclub.herokuapp.com/api/slack/authuser.js'
 }
 
 
