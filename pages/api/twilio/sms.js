@@ -47,6 +47,12 @@ export default async (req, res) => {
   
   console.log('User Record: ', user)
   console.log('User Record Fields: ', user.fields)
+  
+  const {
+    'Slack Token': userToken,
+    'Slack ID': userId,
+    'Name': name
+  } = user.fields
 
   if (mediaCount) {
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
@@ -54,15 +60,16 @@ export default async (req, res) => {
       v => req.body['MediaUrl' + v]
     )
   }
-
-  /*
+  
   const slackPostText = text
   
   const slackResponse = await slack.chat.postMessage({
     text: slackPostText,
     channel: botSpamId,
+    token: userToken
   })
-  */
-
-  return res.json({ ok: true })
+  
+  twiml.message('ok i posted ur msg to slack!'))
+  res.writeHead(200, { 'Content-Type': 'text/xml' })
+  return res.end(twiml.toString())
 }      
