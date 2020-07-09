@@ -6,6 +6,7 @@ const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
 
 export default async (req, res) => {
+  console.log('Slack Auth Request: ', req)
   console.log('Slack Auth Request URL: ', req.url)
   
   // Get query string from URL (and return empty string if none exists)
