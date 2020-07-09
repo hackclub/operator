@@ -19,9 +19,8 @@ export default async (req, res) => {
   console.log('Auth Params: ', params)
   
   const {
-    phone,
     code,
-    state
+    state: phone
   } = params
   
   const oauthRequest = {
