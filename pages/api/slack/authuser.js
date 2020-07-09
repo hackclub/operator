@@ -23,13 +23,15 @@ export default async (req, res) => {
     state
   } = params
   
-  console.log('Sending OAuth access request to slack for '+code)
-  
-  const result = await slack.oauth.v2.access({
+  const oauthRequest = {
     code,
     'client_id': process.env.SLACK_CLIENT_ID,
     'client_secret': process.env.SLACK_CLIENT_SECRET
-  })
+  }
+  
+  console.log('Sending OAuth access request to slack: ', oauthRequest)
+  
+  const result = await slack.oauth.v2.access(oauthRequest)
   console.log('sent code:', code, 'to slack and got back', result)
   
   return res.json({ok: true})
