@@ -22,11 +22,14 @@ export default async (req, res) => {
   } = req.body
   
   const twiml = new MessagingResponse()
+  const numberRegistered = false
+  
+  if (!numberRegistered) {
+    twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(fromNumber))
 
-  twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(fromNumber))
-
-  res.writeHead(200, {'Content-Type': 'text/xml'})
-  res.end(twiml.toString())
+    res.writeHead(200, {'Content-Type': 'text/xml'})
+    return res.end(twiml.toString())
+  }
 
   if (mediaCount) {
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
