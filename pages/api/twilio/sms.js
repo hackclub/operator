@@ -44,6 +44,7 @@ export default async (req, res) => {
     return res.end(twiml.toString())
   }
   
+  console.log('User Record: ', user)
   console.log('User Record Fields: ', user.fields)
 
   if (mediaCount) {
