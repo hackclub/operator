@@ -31,10 +31,8 @@ export default async (req, res) => {
 
   const twiml = new MessagingResponse()
   
-  
-  
   const user = await userTable.read({
-    filterByFormula: 'Phone = ' + fromNumber,
+    filterByFormula: `Phone = '${fromNumber}'`,
     maxRecords: 1
   })
 
