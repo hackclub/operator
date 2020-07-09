@@ -69,7 +69,7 @@ export default async (req, res) => {
     token: userToken
   })
   
-  twiml.message('ok i posted ur msg to slack!'))
+  twiml.message('ok i posted ur msg to slack!')
   res.writeHead(200, { 'Content-Type': 'text/xml' })
   return res.end(twiml.toString())
 }      
