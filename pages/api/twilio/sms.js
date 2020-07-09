@@ -36,8 +36,8 @@ export default async (req, res) => {
     filterByFormula: `{Phone Number} = '${fromNumber}'`,
     maxRecords: 1
   }), null][0]
-
-  if (!user) {
+  
+  if (!user || user.fields['Test Auth Flow']) {
     console.log('No user record found for '+fromNumber)
     twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(fromNumber))
 
@@ -62,12 +62,20 @@ export default async (req, res) => {
   }
   
   const slackPostText = text
+  let slackResponse = null
   
-  const slackResponse = await slack.chat.postMessage({
-    text: slackPostText,
-    channel: botSpamId,
-    token: userToken
-  })
+  try {
+    slackResponse = await slack.chat.postMessage({
+      text: slackPostText,
+      channel: botSpamId,
+      token: userToken
+    })
+  } catch (err) {
+    console.log('Posting message to slack returned an error: ', err)
+    twiml.message('I tried to post your message but I got this error: '+err)
+    res.writeHead(200, { 'Content-Type': 'text/xml' })
+    return res.end(twiml.toString())
+  }
   
   twiml.message('ok i posted ur msg to slack!')
   res.writeHead(200, { 'Content-Type': 'text/xml' })
