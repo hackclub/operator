@@ -21,8 +21,8 @@ const generateTokenRequestURL = (phoneNumber) => {
 }
 
 export default async (req, res) => {
-  console.log('Request Headers:', req.headers)
-  console.log('Request Body:', req.body)
+  console.log('Twilio Request Headers:', req.headers)
+  console.log('Twilio Request Body:', req.body)
   const {
     Body: text,
     From: fromNumber,
@@ -37,11 +37,14 @@ export default async (req, res) => {
   })
 
   if (!user) {
+    console.log('No user record found for '+fromNumber)
     twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(fromNumber))
 
     res.writeHead(200, { 'Content-Type': 'text/xml' })
     return res.end(twiml.toString())
   }
+  
+  console.log('User Record Fields: ', user.fields)
 
   if (mediaCount) {
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
