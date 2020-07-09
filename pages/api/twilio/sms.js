@@ -20,8 +20,6 @@ const generateTokenRequestURL = (phoneNumber) => {
   return 'https://slack.com/oauth/v2/authorize?scope=chat:write&client_id=2210535565.1220598825398&redirect_uri=https://operator-bot-hackclub.herokuapp.com/api/slack/authuser?phone=' + phoneNumber
 }
 
-const replyWithAuthLink = ()
-
 export default async (req, res) => {
   console.log('Request Headers:', req.headers)
   console.log('Request Body:', req.body)
