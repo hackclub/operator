@@ -2,7 +2,7 @@ const _ = require('lodash')
 const { WebClient: SlackWebClient } = require('@slack/web-api')
 const AirtablePlus = require('airtable-plus')
 
-const slack = new SlackWebClient(process.env.SLACK_CLIENT_SECRET)
+const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
 
 export default async (req, res) => {
