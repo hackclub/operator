@@ -1,20 +1,12 @@
 const _ = require('lodash')
+const http = require('http')
+const express = require('express')
 const { WebClient: SlackWebClient } = require('@slack/web-api')
+const MessagingResponse = require('twilio').twiml.MessagingResponse
+
 const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
-const http = require('http');
-const express = require('express');
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
-
- (req, res) => {
-  const twiml = new MessagingResponse();
-
-  twiml.message('hello');
-
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
-};
-
+ 
 /* TODO: recieve msg from someone, desplay msg saying they're not signed up for operator after checking an airtable then send slack URL with number in it */ 
 
 const generateTokenRequestURL = (phoneNumber) => {
@@ -24,26 +16,33 @@ const generateTokenRequestURL = (phoneNumber) => {
 export default async (req, res) => {
   console.log('Request Body:', req.body)
   const {
-    text: Body,
-    fromNumber: From,
-    mediaCount: NumMedia = 0,
+    Body: text,
+    From: fromNumber,
+    NumMedia: mediaCount = 0,
   } = req.body
   
+  const twiml = new MessagingResponse()
+
+  twiml.message(generateTokenRequestURL)
+
+  res.writeHead(200, {'Content-Type': 'text/xml'})
+  res.end(twiml.toString())
+
   if (mediaCount) {
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
     const mediaUrls = _.map(_.range(mediaCount),
       v => req.body['MediaUrl'+v]
     )
-    
   }
   
+  /*
   const slackPostText = text
   
   const slackResponse = await slack.chat.postMessage({
     text: slackPostText,
     channel: botSpamId,
-  });
+  })
+  */
   
-    
   return res.json({ok: true})
 }      
