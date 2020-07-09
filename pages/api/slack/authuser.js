@@ -15,14 +15,17 @@ export default async (req, res) => {
   
   // Turn all query string parameters into an object
   const params = _.fromPairs(_.map(query.split('&'), v => v.split('=')))
-
+  console.log('Auth Params: ', params)
+  
   const {
     phone,
     code,
     state
   } = params
   
-  console.log('Auth Params: ', params)
+  const result = await slack.oauth.v2.access({
+    code: code
+  })
 
   return res.json({ok: true})
-}      
+}
