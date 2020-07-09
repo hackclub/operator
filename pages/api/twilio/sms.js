@@ -28,7 +28,6 @@ export default async (req, res) => {
     From: fromNumber,
     NumMedia: mediaCount = 0,
   } = req.body
-  const headers req.headers
 
   const twiml = new MessagingResponse()
   
