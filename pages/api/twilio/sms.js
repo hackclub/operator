@@ -51,7 +51,7 @@ export default async (req, res) => {
   const {
     'Slack Token': userToken,
     'Slack ID': userId,
-    'Name': name
+    'Name': userName
   } = user.fields
 
   if (mediaCount) {
@@ -71,8 +71,8 @@ export default async (req, res) => {
       token: userToken
     })
   } catch (err) {
-    console.log('Posting message to slack returned an error: ', err)
-    twiml.message('I tried to post your message but I got this error: '+err)
+    console.log(`Sorry ${userName}, posting your message to slack returned an error: `, err)
+    twiml.message(`Sorry ${userName}, posting your message to slack returned an error:\n\n`, err)
     res.writeHead(200, { 'Content-Type': 'text/xml' })
     return res.end(twiml.toString())
   }
