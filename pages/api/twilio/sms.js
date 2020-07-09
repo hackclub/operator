@@ -23,7 +23,7 @@ export default async (req, res) => {
   
   const twiml = new MessagingResponse()
 
-  twiml.message(generateTokenRequestURL)
+  twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(fromNumber))
 
   res.writeHead(200, {'Content-Type': 'text/xml'})
   res.end(twiml.toString())
