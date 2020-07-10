@@ -29,13 +29,13 @@ export default async (req, res) => {
     state
   } = params
 
-  const user = [...await userTable.read({
+  let user = [...await userTable.read({
     filterByFormula: `{SMS Auth Request Token} = '${state}'`,
     maxRecords: 1
   }), null][0]
 
   if (!user) {
-    console.log('user does not have correct state in request')
+    console.log('\'state\' param in authorization link does not match any of our SMS authorization requests')
     return res.json({error: 'This authorization link does not match any of our SMS authorization requests!'})
   }
   
@@ -48,15 +48,25 @@ export default async (req, res) => {
 
   console.log('Sending OAuth access request to slack: ', oauthRequest)
   
-  const result = await slack.oauth.v2.access(oauthRequest)
+  let slackOauthData
   
-  console.log('sent code:', code, 'to slack and got back', result)
+  try {
+    slackOauthData = await slack.oauth.v2.access(oauthRequest)
+  } catch (err) {
+    return res.json({
+      error: 'Slack did not like this authorization request. They had this to say about it:\n\n' + err.message
+    })
+  }
   
-  const updateUser = await userTable.update(user.id, {
+  console.log('sent code:', code, 'to slack and got back', slackOauthData)
+  
+  user = await userTable.update(user.id, {
     'Slack Token': result.authed_user.access_token,
     'Slack Token Scopes': result.authed_user.scope,
     'Slack ID': result.authed_user.id
   })
+  
+  console.log('Successfully updated user:', user)
 
-  return res.json({ok: true})
+  return res.json({message: 'Thanks for authorizing!!! Text Operator again to post in slack :)'})
 }
