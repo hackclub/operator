@@ -33,26 +33,35 @@ export default async (req, res) => {
   
 
   // Retrieve user record by number, in a way that safely returns null if no records found
-  const user = [...await userTable.read({
+  let user = [...await userTable.read({
     filterByFormula: `{Phone Number} = '${fromNumber}'`,
     maxRecords: 1
   }), null][0]
   
-  if (!user || user.fields['Test Auth Flow']) {
-    let smsAuthRequestToken
-    
+  const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
+  
+  if (!user || user.fields['Test Auth Flow'] || !user.fields['Slack Token']) {
     if (!user) {
-      smsAuthRequestToken = Math.random().toString().split('.')[1]
-      console.log(`No user record found for ${fromNumber}. Generating new user number record with code ${slackAuthRequestToken}`)
+      console.log(`No user record found for ${fromNumber}.`)
       
-      const result = await userTable.create({
+      user = await userTable.create({
         'Phone Number': fromNumber,
-        'SMS Auth Request Token': smsAuthRequestToken
+        'SMS Auth Request Token': newToken()
       })
+      
+      console.log('Created a new user:', user)
     }
     else {
-      console.log(`Testing auth flow for existing number ${fromNumber}`)
-      smsAuthRequestToken = user.fields['SMS Auth Request Token']
+      if (user.fields['Test Auth Flow'])
+        console.log(`Testing auth flow for existing number ${fromNumber}`)
+      else
+        console.log(`Creating new auth link for existing number ${fromNumber}`)
+      
+      user = await userTable.update(user.id, {
+        'SMS Auth Request Token': newToken()
+      })
+      
+      console.log('User is now updated to:', user)
     }
     
     twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(smsAuthRequestToken))
