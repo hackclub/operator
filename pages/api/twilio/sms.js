@@ -53,7 +53,7 @@ export default async (req, res) => {
     }
     else smsAuthRequestToken = user.fields['SMS Auth Request Token']
     
-    twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(smsAuthReqestToken))
+    twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(smsAuthRequestToken))
 
     res.writeHead(200, { 'Content-Type': 'text/xml' })
     return res.end(twiml.toString())
