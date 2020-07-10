@@ -39,19 +39,21 @@ export default async (req, res) => {
   }), null][0]
   
   if (!user || user.fields['Test Auth Flow']) {
-    console.log('No user record found for '+fromNumber)
-    
     let smsAuthRequestToken
     
     if (!user) {
       smsAuthRequestToken = Math.random().toString().split('.')[1]
+      console.log(`No user record found for ${fromNumber}. Generating new user number record with code ${slackAuthRequestToken}`)
       
       const result = await userTable.create({
         'Phone Number': fromNumber,
         'SMS Auth Request Token': smsAuthRequestToken
       })
     }
-    else smsAuthRequestToken = user.fields['SMS Auth Request Token']
+    else {
+      console.log(`Testing auth flow for existing number ${fromNumber}`)
+      smsAuthRequestToken = user.fields['SMS Auth Request Token']
+    }
     
     twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(smsAuthRequestToken))
 
@@ -60,7 +62,6 @@ export default async (req, res) => {
   }
   
   console.log('User Record: ', user)
-  console.log('User Record Fields: ', user.fields)
   
   const {
     'Slack Token': userToken,
