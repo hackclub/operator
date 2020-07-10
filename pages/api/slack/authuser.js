@@ -41,8 +41,6 @@ export default async (req, res) => {
   
   const oauthRequest = {
     code,
-    client_id: process.env.SLACK_CLIENT_ID,
-    client_secret: process.env.SLACK_CLIENT_SECRET,
     redirect_uri: 'https://operator-bot-hackclub.herokuapp.com/api/slack/authuser'
   }
 
