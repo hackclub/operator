@@ -70,12 +70,16 @@ export default async (req, res) => {
   })
   
   console.log('Successfully updated user:', user)
+  
+  const {
+    'Phone Number': userPhone
+  } = user.fields
 
   twilio.messages.create({
     body: 'Hey bub so Dingo just told me you\'re all authorized. That is so awesome!! Just text me to post to #bot-spam. adding general support for all channels soon!!!!',
     from: '+7174475225',
-    to: user['Phone Number']
-  }).then(message => console.log('Sent confirmation message to ', user['Phone Number'], '. Message SID is ', message.sid));
+    to: userPhone
+  }).then(message => console.log('Sent confirmation message to ', userPhone, '. Message SID is ', message.sid));
 
   return res.json({message: 'Thanks for authorizing mate. Go ahead and text Lucy the Operator again to post in #bot-spam (this is ur buddy Dingo btw)'})
 }
