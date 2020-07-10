@@ -3,7 +3,7 @@ const { WebClient: SlackWebClient } = require('@slack/web-api')
 const AirtablePlus = require('airtable-plus')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
 
-const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
