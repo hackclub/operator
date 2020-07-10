@@ -62,8 +62,8 @@ export default async (req, res) => {
   
   user = await userTable.update(user.id, {
     'Slack ID': slackOauthData.authed_user.id,
-    'Slack Token': slackOauthData.access_token,
-    'Slack Token Scopes': slackOauthData.response_metadata.scopes.join(', ')
+    'Slack Token': slackOauthData.authed_user.access_token,
+    'Slack Token Scopes': slackOauthData.authed_user.scope
   })
   
   console.log('Successfully updated user:', user)
