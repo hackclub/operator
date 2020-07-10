@@ -12,7 +12,7 @@ const userTable = new AirtablePlus({
 })
 
 export default async (req, res) => {
-  console.log('Slack Auth Request: ', req)
+  //console.log('Slack Auth Request: ', req)
   console.log('Slack Auth Request URL: ', req.url)
 
   // Get query string from URL (and return empty string if none exists)
