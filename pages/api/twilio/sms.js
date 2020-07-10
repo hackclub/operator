@@ -16,8 +16,8 @@ const userTable = new AirtablePlus({
 
 /* TODO: recieve msg from someone, desplay msg saying they're not signed up for operator after checking an airtable then send slack URL with number in it */
 
-const generateTokenRequestURL = (phoneNumber) => {
-  return 'https://slack.com/oauth/v2/authorize?scope=chat:write&client_id=2210535565.1220598825398&state=' + phoneNumber
+const generateTokenRequestURL = (token) => {
+  return 'https://slack.com/oauth/v2/authorize?scope=chat:write&client_id=2210535565.1220598825398&state=' + token
 }
 
 export default async (req, res) => {
@@ -31,6 +31,7 @@ export default async (req, res) => {
 
   const twiml = new MessagingResponse()
   
+
   // Retrieve user record by number, in a way that safely returns null if no records found
   const user = [...await userTable.read({
     filterByFormula: `{Phone Number} = '${fromNumber}'`,
@@ -39,7 +40,20 @@ export default async (req, res) => {
   
   if (!user || user.fields['Test Auth Flow']) {
     console.log('No user record found for '+fromNumber)
-    twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(fromNumber))
+    
+    let smsAuthRequestToken
+    
+    if (!user) {
+      smsAuthRequestToken = Math.random().toString().split('.')[1]
+      
+      const result = await userTable.create({
+        'Phone Number': fromNumber,
+        'SMS Auth Request Token': smsAuthRequestToken
+      })
+    }
+    else smsAuthRequestToken = user.fields['SMS Auth Request Token']
+    
+    twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(smsAuthReqestToken))
 
     res.writeHead(200, { 'Content-Type': 'text/xml' })
     return res.end(twiml.toString())
