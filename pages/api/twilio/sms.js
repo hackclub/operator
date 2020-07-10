@@ -14,11 +14,7 @@ const userTable = new AirtablePlus({
     tableName: 'Users',
 })
 
-/* TODO: recieve msg from someone, desplay msg saying they're not signed up for operator after checking an airtable then send slack URL with number in it */
-
-const generateTokenRequestUrl = (token) => {
-  return 'https://slack.com/oauth/v2/authorize?user_scope=chat:write&client_id=2210535565.1220598825398&state=' + token
-}
+const generateTokenRequestUrl = (token) => 'https://slack.com/oauth/v2/authorize?user_scope=chat:write&client_id=2210535565.1220598825398&state=' + token
 
 export default async (req, res) => {
   console.log('Twilio Request Headers:', req.headers)

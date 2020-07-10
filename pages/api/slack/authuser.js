@@ -1,6 +1,9 @@
 const _ = require('lodash')
 const { WebClient: SlackWebClient } = require('@slack/web-api')
 const AirtablePlus = require('airtable-plus')
+const MessagingResponse = require('twilio').twiml.MessagingResponse
+
+const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
@@ -68,5 +71,11 @@ export default async (req, res) => {
   
   console.log('Successfully updated user:', user)
 
-  return res.json({message: 'Thanks for authorizing!!! Text Operator again to post in slack :)'})
+  twilio.messages.create({
+    body: 'Hey bub so Dingo just told me you\'re all authorized. That is so awesome!! Just text me to post to #bot-spam. adding general support for all channels soon!!!!',
+    from: '+7174475225',
+    to: user['Phone Number']
+  }).then(message => console.log('Sent confirmation message to ', user['Phone Number'], '. Message SID is ', message.sid));
+
+  return res.json({message: 'Thanks for authorizing mate. Go ahead and text Lucy the Operator again to post in #bot-spam (this is ur buddy Dingo btw)'})
 }
