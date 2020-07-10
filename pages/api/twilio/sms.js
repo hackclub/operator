@@ -16,7 +16,7 @@ const userTable = new AirtablePlus({
 
 /* TODO: recieve msg from someone, desplay msg saying they're not signed up for operator after checking an airtable then send slack URL with number in it */
 
-const generateTokenRequestURL = (token) => {
+const generateTokenRequestUrl = (token) => {
   return 'https://slack.com/oauth/v2/authorize?user_scope=chat:write&client_id=2210535565.1220598825398&state=' + token
 }
 
