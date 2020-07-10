@@ -41,15 +41,20 @@ export default async (req, res) => {
   const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
   
   if (!user || user.fields['Test Auth Flow'] || !user.fields['Slack Token']) {
+    const smsAuthRequestToken = newToken()
+    const tokenRequestUrl = generateTokenRequestUrl(smsAuthRequestToken)
+    
     if (!user) {
       console.log(`No user record found for ${fromNumber}.`)
       
       user = await userTable.create({
         'Phone Number': fromNumber,
-        'SMS Auth Request Token': newToken()
+        'SMS Auth Request Token': smsAuthRequestToken
       })
       
       console.log('Created a new user:', user)
+      twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here?' + tokenRequestUrl)
+      twiml.message('i\'m the operator, btw. My real name is Lucille but you can just call me Operator :)')
     }
     else {
       if (user.fields['Test Auth Flow'])
@@ -58,13 +63,14 @@ export default async (req, res) => {
         console.log(`Creating new auth link for existing number ${fromNumber}`)
       
       user = await userTable.update(user.id, {
-        'SMS Auth Request Token': newToken()
+        'SMS Auth Request Token': smsAuthRequestToken
       })
       
       console.log('User is now updated to:', user)
+      twiml.message('Oh hey it\'s you again!!')
+      twiml.message('Sorry I don\'t think you signed in yet!\nyou can do that here:\n' + tokenRequestUrl)
     }
     
-    twiml.message('OMG I am soooo excited to connect you to the Hack Club Slack!! I don\'t recognize this number though… can you do me a favor and sign in here? ' + generateTokenRequestURL(smsAuthRequestToken))
 
     res.writeHead(200, { 'Content-Type': 'text/xml' })
     return res.end(twiml.toString())
