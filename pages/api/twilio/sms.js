@@ -84,7 +84,9 @@ export default async (req, res) => {
   let slackPostText = text
   let slackResponse = null
 
-  if (mediaCount) {
+  if (mediaCount > 0) {
+    console.log(`Logging ${mediaCount} media files`)
+    
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
     const mediaUrls = _.map(_.range(mediaCount),
       v => req.body['MediaUrl' + v]
