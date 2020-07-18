@@ -118,10 +118,13 @@ export default async (req, res) => {
         method: 'POST',
         body: form
       })
-        .then(r => r.json())
+        .then(r => r.json().file.private_url)
     }
 
-    const slackMediaResponses = await Promise.all(_.map(mediaUrls, uploadFile))
+    const slackMediaUrls = await Promise.all(_.map(mediaUrls, uploadFile))
+    console.log('Uploaded files to slack: ', slackMediaUrls)
+    
+    slackPostText += '\n\n' + slackMediaUrls.join('\n')
   }
   
   try {
