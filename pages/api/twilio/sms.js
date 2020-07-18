@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const http = require('http')
 const express = require('express')
+const fetch = require('node-fetch')
 const FormData = require('form-data')
 const AirtablePlus = require('airtable-plus')
 const { WebClient: SlackWebClient } = require('@slack/web-api')
