@@ -121,7 +121,7 @@ export default async (req, res) => {
         .then(r => r.json())
     }
 
-    const slackMediaResponses = await Promise.all(_.map(slackMediaUrls, uploadFile))
+    const slackMediaResponses = await Promise.all(_.map(mediaUrls, uploadFile))
   }
   
   try {
