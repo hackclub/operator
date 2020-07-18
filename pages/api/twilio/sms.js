@@ -29,7 +29,7 @@ export default async (req, res) => {
 
   const twiml = new MessagingResponse()
   
-
+  console.log('Retrieving user for number ' + fromNumber)
   // Retrieve user record by number, in a way that safely returns null if no records found
   let user = await userTable.read({
     filterByFormula: `{Phone Number} = '${fromNumber}'`,
@@ -66,7 +66,7 @@ export default async (req, res) => {
       
       console.log('User is now updated to:', user)
       twiml.message('Oh hey it’s you again!!')
-      // twiml.message('Sorry I don\'t think you signed in yet!\nyou can do that here:\n' + tokenRequestUrl)
+      twiml.message('Sorry I don’t think you signed in yet!\nyou can do that here:\n' + tokenRequestUrl)
     }
 
     res.writeHead(200, { 'Content-Type': 'text/xml' })

@@ -75,7 +75,7 @@ export default async (req, res) => {
     'Phone Number': userPhone
   } = user.fields
 
-  return twilio.messages.create({
+  twilio.messages.create({
     body: 'Hey bub so Dingo just told me you’re all authorized. That is so awesome!! Just text me to post to #scrapbook. adding general support for all channels soon!!!!',
     from: '+17174475225',
     to: userPhone
