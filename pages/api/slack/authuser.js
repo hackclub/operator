@@ -9,9 +9,9 @@ const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
 
 const userTable = new AirtablePlus({
-    baseID: process.env.OPERATOR_AIRTABLE_BASE,
-    apiKey: process.env.AIRTABLE_API_KEY,
-    tableName: 'Users',
+  baseID: process.env.OPERATOR_AIRTABLE_BASE,
+  apiKey: process.env.AIRTABLE_API_KEY,
+  tableName: 'Users'
 })
 
 export default async (req, res) => {
@@ -76,7 +76,7 @@ export default async (req, res) => {
   } = user.fields
 
   return twilio.messages.create({
-    body: 'Hey bub so Dingo just told me you\'re all authorized. That is so awesome!! Just text me to post to #scrapbook. adding general support for all channels soon!!!!',
+    body: 'Hey bub so Dingo just told me you’re all authorized. That is so awesome!! Just text me to post to #scrapbook. adding general support for all channels soon!!!!',
     from: '+7174475225',
     to: userPhone
   }).then(message => console.log('Sent confirmation message to ', userPhone, '. Message SID is ', message.sid));
