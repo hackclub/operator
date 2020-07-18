@@ -77,7 +77,7 @@ export default async (req, res) => {
 
   return twilio.messages.create({
     body: 'Hey bub so Dingo just told me you’re all authorized. That is so awesome!! Just text me to post to #scrapbook. adding general support for all channels soon!!!!',
-    from: '+7174475225',
+    from: '+17174475225',
     to: userPhone
   }).then(message => console.log('Sent confirmation message to ', userPhone, '. Message SID is ', message.sid));
 
