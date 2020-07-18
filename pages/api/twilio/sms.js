@@ -1,9 +1,12 @@
 const _ = require('lodash')
 const http = require('http')
+const fetch = require('node-fetch')
 const express = require('express')
+const FormData = require('form-data')
 const AirtablePlus = require('airtable-plus')
 const { WebClient: SlackWebClient } = require('@slack/web-api')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
+
 
 const slack = new SlackWebClient(process.env.SLACK_BOT_TOKEN)
 const botSpamId = 'C0P5NE354'
@@ -64,9 +67,8 @@ export default async (req, res) => {
       
       console.log('User is now updated to:', user)
       twiml.message('Oh hey it\'s you again!!')
-      twiml.message('Sorry I don\'t think you signed in yet!\nyou can do that here:\n' + tokenRequestUrl)
+      // twiml.message('Sorry I don\'t think you signed in yet!\nyou can do that here:\n' + tokenRequestUrl)
     }
-    
 
     res.writeHead(200, { 'Content-Type': 'text/xml' })
     return res.end(twiml.toString())
@@ -79,16 +81,18 @@ export default async (req, res) => {
     'Slack ID': userId,
     'Name': userName
   } = user.fields
+  
+  let slackPostText = text
+  let slackResponse = null
 
   if (mediaCount) {
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
     const mediaUrls = _.map(_.range(mediaCount),
       v => req.body['MediaUrl' + v]
     )
+    
+    slackPostText += '\n\n' + mediaUrls.join('\n')
   }
-  
-  const slackPostText = text
-  let slackResponse = null
   
   try {
     slackResponse = await slack.chat.postMessage({

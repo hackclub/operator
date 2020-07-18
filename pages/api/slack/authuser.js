@@ -75,11 +75,11 @@ export default async (req, res) => {
     'Phone Number': userPhone
   } = user.fields
 
-  twilio.messages.create({
-    body: 'Hey bub so Dingo just told me you\'re all authorized. That is so awesome!! Just text me to post to #bot-spam. adding general support for all channels soon!!!!',
+  return twilio.messages.create({
+    body: 'Hey bub so Dingo just told me you\'re all authorized. That is so awesome!! Just text me to post to #scrapbook. adding general support for all channels soon!!!!',
     from: '+7174475225',
     to: userPhone
   }).then(message => console.log('Sent confirmation message to ', userPhone, '. Message SID is ', message.sid));
 
-  return res.json({message: 'Thanks for authorizing mate. Go ahead and text Lucy the Operator again to post in #bot-spam (this is ur buddy Dingo btw)'})
+  return res.json({message: 'Thanks for authorizing mate. Go ahead and text Lucy the Operator again to post in #scrapbook (this is ur buddy Dingo btw)'})
 }
