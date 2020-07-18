@@ -30,11 +30,11 @@ export default async (req, res) => {
   const twiml = new MessagingResponse()
   
   console.log('Retrieving user for number ' + fromNumber)
-  // Retrieve user record by number, in a way that safely returns null if no records found
   let user = await userTable.read({
     filterByFormula: `{Phone Number} = '${fromNumber}'`,
     maxRecords: 1
-  })?.[0]
+  })
+  if (user.length > 0) user = user[0]
   
   const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
   
