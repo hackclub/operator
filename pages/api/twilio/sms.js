@@ -94,7 +94,7 @@ export default async (req, res) => {
     )
     console.log('Extracted media URLs: ', mediaUrls)
     
-    const mediaTypes = _.map(mediaUrls, v => v.split('.')[1])
+    const mediaTypes = _.map(mediaUrls, v => _.last(v.split('.')))
     console.log('Extracted media types: ', mediaTypes)
     
     const fetchFile = url => fetch(url).then(res => res.arrayBuffer())
@@ -103,6 +103,8 @@ export default async (req, res) => {
     console.log('All media buffers fetched')
     
     const uploadFile = async (file, index) => {
+      console.log(`Uploading file ${index}`)
+      
       const fileName = 'file_' + index
       const fileType = mediaTypes[index]
 
@@ -114,11 +116,13 @@ export default async (req, res) => {
         filename: `${fileName}.${fileType}`
       })
 
-      return await fetch('https://slack.com/api/files.upload', {
+      const json = await fetch('https://slack.com/api/files.upload', {
         method: 'POST',
         body: form
-      })
-        .then(r => r.json().file.private_url)
+      }).then(r => r.json())
+        
+      console.log(`File ${index} uploaded! Slack's response: `, json)
+      return json
     }
 
     const slackMediaUrls = await Promise.all(_.map(mediaUrls, uploadFile))
