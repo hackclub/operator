@@ -16,7 +16,7 @@ const userTable = new AirtablePlus({
 })
 
 const generateTokenRequestUrl = (token) =>
-  'https://slack.com/oauth/v2/authorize?user_scope=chat:write&client_id=2210535565.1220598825398&state=' + token
+  'https://slack.com/oauth/v2/authorize?user_scope=chat:write,files:write&client_id=2210535565.1220598825398&state=' + token
 
 export default async (req, res) => {
   console.log('Twilio Request Headers:', req.headers)
