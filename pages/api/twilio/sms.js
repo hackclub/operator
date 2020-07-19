@@ -111,9 +111,11 @@ export default async (req, res) => {
       form.append('token', userToken)
       form.append('filename', file.fileName)
       form.append('filetype', file.fileType)
-      form.append('file', file, {
+      form.append('file', file.buffer, {
         filename: `${file.fileName}.${file.fileType}`
       })
+      
+      console.log(`Form data generated for file ${index}. Submitting…`)
 
       const json = await fetch('https://slack.com/api/files.upload', {
         method: 'POST',
