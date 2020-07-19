@@ -89,29 +89,29 @@ export default async (req, res) => {
     console.log(`Logging ${mediaCount} media files`)
     
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
-    const mediaUrls = _.map(_.range(mediaCount),
-      v => req.body['MediaUrl' + v]
-    )
-    console.log('Extracted media URLs: ', mediaUrls)
+    const media = _.map(_.range(mediaCount), v => {
+      contentType: req.body['MediaContentType' + v],
+      mediaType: req.body['MediaContentType' + v].split('/')[0],
+      fileType: req.body['MediaContentType' + v].split('/')[1],
+      url: req.body['MediaUrl' + v]
+    })
+    console.log('Extracted media: ', media)
     
-    const mediaTypes = _.map(mediaUrls, v => _.last(v.split('.')))
-    console.log('Extracted media types: ', mediaTypes)
-    
-    const fetchFile = url => fetch(url).then(res => res.arrayBuffer())
-
-    const mediaBuffers = await Promise.all(_.map(mediaUrls, fetchFile))
+    const fetchFile = async v => {
+      v.buffer = await fetch(v.url).then(res => res.arrayBuffer())
+    }
+    await Promise.all(_.map(media, fetchFile))
     console.log('All media buffers fetched')
     
     const uploadFile = async (file, index) => {
       console.log(`Uploading file ${index}`)
       
       const fileName = 'file_' + index
-      const fileType = mediaTypes[index]
 
       const form = new FormData()
       form.append('token', userToken)
       form.append('filename', fileName)
-      form.append('filetype', fileType)
+      form.append('filetype', file.fileType)
       form.append('file', file, {
         filename: `${fileName}.${fileType}`
       })
@@ -122,13 +122,13 @@ export default async (req, res) => {
       }).then(r => r.json())
         
       console.log(`File ${index} uploaded! Slack's response: `, json)
-      return json
+      return json.file.private_url
     }
 
-    const slackMediaUrls = await Promise.all(_.map(mediaUrls, uploadFile))
-    console.log('Uploaded files to slack: ', slackMediaUrls)
+    const slackFileUrls = await Promise.all(_.map(media, uploadFile))
+    console.log('Uploaded files to slack: ', slackFileUrls)
     
-    slackPostText += '\n\n' + slackMediaUrls.join('\n')
+    slackPostText += '\n\n' + slackFileUrls.join('\n')
   }
   
   try {
