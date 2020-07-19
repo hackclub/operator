@@ -102,26 +102,22 @@ export default async (req, res) => {
     })
     console.log('Extracted media: ', media)
     
-    const fetchFile = async v => {
-      v.buffer = await fetch(v.url).then(res => res.arrayBuffer())
-      return v
-    }
-    const buffers = await Promise.all(_.map(media, fetchFile))
-    console.log('All media buffers fetched: ', buffers)
-    
-    const uploadFile = async (file, index) => {
-      console.log(`Uploading file ${index}: `, file)
+    const uploadFile = async (fileInfo, index) => {
+      console.log(`Fetching file ${index}: `, file)
+      const file = await fetch(fileInfo.url).then(v => v.arrayBuffer())
+      const filename = `${fileInfo.fileName}.${fileInfo.fileType}`
       
+      console.log(`Uploading file ${index}: `, file)
       const json = await slack.files.upload({
         token: userToken,
-        filename: `${file.fileName}.${file.fileType}`,
-        file: file.buffer,
+        filename,
+        file
       }).then(r => {
-        console.log('Submitted! Response (converting to JSON): ', r)
+        console.log('Uploaded! Response (converting to JSON): ', r)
         return r.json()
       })
         
-      console.log(`File ${index} uploaded! Slack's response: `, json)
+      console.log(`Upload complete for file ${index}! Slack’s response: `, json)
       return json.file.private_url
     }
 
