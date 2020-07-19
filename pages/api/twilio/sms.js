@@ -105,7 +105,7 @@ export default async (req, res) => {
     console.log('All media buffers fetched')
     
     const uploadFile = async (file, index) => {
-      console.log(`Uploading file ${index}`)
+      console.log(`Uploading file ${index}: `, file)
 
       const form = new FormData()
       form.append('token', userToken)
