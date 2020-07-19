@@ -131,7 +131,10 @@ export default async (req, res) => {
       const json = await fetch('https://slack.com/api/files.upload', {
         method: 'POST',
         body: form
-      }).then(r => r.json())
+      }).then(r => {
+        console.log('Submitted! Response (converting to JSON): ', r)
+        return r.json()
+      })
         
       console.log(`File ${index} uploaded! Slack's response: `, json)
       return json.file.private_url
