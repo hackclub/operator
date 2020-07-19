@@ -98,7 +98,7 @@ export default async (req, res) => {
         fileName: 'file_' + v,
         url
       }
-    )
+    })
     console.log('Extracted media: ', media)
     
     const fetchFile = async v => {
