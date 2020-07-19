@@ -93,7 +93,7 @@ export default async (req, res) => {
       contentType: req.body['MediaContentType' + v],
       mediaType: req.body['MediaContentType' + v].split('/')[0],
       fileType: req.body['MediaContentType' + v].split('/')[1],
-      fileName: 'file_' + index,
+      fileName: 'file_' + i,
       url: req.body['MediaUrl' + v]
     }))
     console.log('Extracted media: ', media)
