@@ -114,6 +114,7 @@ export default async (req, res) => {
       form.append('token', userToken)
       form.append('filename', file.fileName)
       form.append('filetype', file.fileType)
+      console.log('Appending buffer for file ' + index)
       form.append('file', file.buffer, {
         filename: `${file.fileName}.${file.fileType}`
       })
