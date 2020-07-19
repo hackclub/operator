@@ -89,10 +89,11 @@ export default async (req, res) => {
     console.log(`Logging ${mediaCount} media files`)
     
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
-    const media = _.map(_.range(mediaCount), v => ({
+    const media = _.map(_.range(mediaCount), (v, i) => ({
       contentType: req.body['MediaContentType' + v],
       mediaType: req.body['MediaContentType' + v].split('/')[0],
       fileType: req.body['MediaContentType' + v].split('/')[1],
+      fileName: 'file_' + index,
       url: req.body['MediaUrl' + v]
     }))
     console.log('Extracted media: ', media)
@@ -105,15 +106,13 @@ export default async (req, res) => {
     
     const uploadFile = async (file, index) => {
       console.log(`Uploading file ${index}`)
-      
-      const fileName = 'file_' + index
 
       const form = new FormData()
       form.append('token', userToken)
-      form.append('filename', fileName)
+      form.append('filename', file.fileName)
       form.append('filetype', file.fileType)
       form.append('file', file, {
-        filename: `${fileName}.${fileType}`
+        filename: `${file.fileName}.${file.fileType}`
       })
 
       const json = await fetch('https://slack.com/api/files.upload', {
