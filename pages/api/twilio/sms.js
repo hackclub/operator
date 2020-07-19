@@ -112,25 +112,10 @@ export default async (req, res) => {
     const uploadFile = async (file, index) => {
       console.log(`Uploading file ${index}: `, file)
       
-      // Shim in methods to prevent error from FormData
-      Object.assign(file.buffer, {
-        on: () => {},
-        pause: () => {},
-        resume: () => {},
-      })
-
-      const form = new FormData()
-      form.append('token', userToken)
-      form.append('file', file.buffer, {
+      const json = await slack.files.upload({
+        token: userToken,
         filename: `${file.fileName}.${file.fileType}`,
-        contentType: file.contentType
-      })
-      
-      console.log(`Form data generated for file ${index}. Submitting…`)
-
-      const json = await fetch('https://slack.com/api/files.upload', {
-        method: 'POST',
-        body: form
+        file: file.buffer,
       }).then(r => {
         console.log('Submitted! Response (converting to JSON): ', r)
         return r.json()
