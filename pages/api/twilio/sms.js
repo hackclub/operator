@@ -112,13 +112,19 @@ export default async (req, res) => {
     const uploadFile = async (file, index) => {
       console.log(`Uploading file ${index}: `, file)
       
-      const fileName = `${file.fileName}.${file.fileType}`
+      // Shim in methods to prevent error from FormData
+      Object.assign(file.buffer, {
+        on: () => {},
+        pause: () => {},
+        resume: () => {},
+      })
 
       const form = new FormData()
       form.append('token', userToken)
-      console.log(file.buffer)
-      form.append('file', file.buffer, fileName)
-      form.append('contentType', file.contentType)
+      form.append('file', file.buffer, {
+        filename: `${file.fileName}.${file.fileType}`,
+        contentType: file.contentType
+      })
       
       console.log(`Form data generated for file ${index}. Submitting…`)
 
