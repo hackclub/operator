@@ -102,7 +102,7 @@ export default async (req, res) => {
     console.log('Extracted media: ', media)
     
     const fetchFile = async v => {
-      v.buffer = await fetch(v.url).then(res => res.arrayBuffer())
+      v.buffer = await fetch(v.url).then(res => res.blob())
     }
     const buffers = await Promise.all(_.map(media, fetchFile))
     console.log('All media buffers fetched: ', buffers)
