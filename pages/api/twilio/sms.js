@@ -104,8 +104,8 @@ export default async (req, res) => {
     const fetchFile = async v => {
       v.buffer = await fetch(v.url).then(res => res.arrayBuffer())
     }
-    await Promise.all(_.map(media, fetchFile))
-    console.log('All media buffers fetched')
+    const buffers = await Promise.all(_.map(media, fetchFile))
+    console.log('All media buffers fetched: ', buffers)
     
     const uploadFile = async (file, index) => {
       console.log(`Uploading file ${index}: `, file)
