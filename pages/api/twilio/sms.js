@@ -89,11 +89,11 @@ export default async (req, res) => {
     console.log(`Logging ${mediaCount} media files`)
     
     // Lodash magic because Twilio adds all media URLs as 'MediaUrl0', 'MediaUrl1' etc
-    const media = _.map(_.range(mediaCount), (v, i) => ({
+    const media = _.map(_.range(mediaCount), v => ({
       contentType: req.body['MediaContentType' + v],
       mediaType: req.body['MediaContentType' + v].split('/')[0],
       fileType: req.body['MediaContentType' + v].split('/')[1],
-      fileName: 'file_' + i,
+      fileName: 'file_' + v,
       url: req.body['MediaUrl' + v]
     }))
     console.log('Extracted media: ', media)
