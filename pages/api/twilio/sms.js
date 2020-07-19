@@ -116,6 +116,7 @@ export default async (req, res) => {
 
       const form = new FormData()
       form.append('token', userToken)
+      console.log(file.buffer)
       form.append('file', file.buffer, fileName)
       form.append('contentType', file.contentType)
       
