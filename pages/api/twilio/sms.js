@@ -110,15 +110,16 @@ export default async (req, res) => {
     
     const uploadFile = async (file, index) => {
       console.log(`Uploading file ${index}: `, file)
+      
+      const fileMeta = {
+        filename: `${file.fileName}.${file.fileType}`,
+        contentType: file.contentType
+      }
+      console.log('File metadata: ', fileMeta)
 
       const form = new FormData()
       form.append('token', userToken)
-      form.append('filename', file.fileName)
-      form.append('filetype', file.fileType)
-      console.log('Appending buffer for file ' + index)
-      form.append('file', file.buffer, {
-        filename: `${file.fileName}.${file.fileType}`
-      })
+      form.append('file', file.buffer, fileMeta)
       
       console.log(`Form data generated for file ${index}. Submitting…`)
 
