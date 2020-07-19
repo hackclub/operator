@@ -93,10 +93,11 @@ export default async (req, res) => {
       const contentType = req.body['MediaContentType' + v]
       const url = req.body['MediaUrl' + v]
       return {
+        url,
+        contentType,
         mediaType: contentType.split('/')[0],
         fileType: contentType.split('/')[1],
         fileName: 'file_' + v,
-        url
       }
     })
     console.log('Extracted media: ', media)
