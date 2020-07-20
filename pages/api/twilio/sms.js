@@ -103,7 +103,7 @@ export default async (req, res) => {
     console.log('Extracted media: ', media)
     
     const uploadFile = async (fileInfo, index) => {
-      console.log(`Fetching file ${index}: `, file)
+      console.log(`Fetching file ${index}: `, fileInfo)
       const file = await fetch(fileInfo.url).then(v => v.arrayBuffer())
       const filename = `${fileInfo.fileName}.${fileInfo.fileType}`
       
