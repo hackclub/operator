@@ -103,8 +103,11 @@ export default async (req, res) => {
     console.log('Extracted media: ', media)
     
     const uploadFile = async (fileInfo, index) => {
+      const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/6/68/Solid_black.png'
+      
+      
       console.log(`Fetching file ${index}: `, fileInfo)
-      const file = await (await fetch(fileInfo.url)).arrayBuffer()
+      const file = await (await fetch(imageUrl)).arrayBuffer()
       const filename = `${fileInfo.fileName}.${fileInfo.fileType}`
       
       console.log(`Uploading file ${index}: `, file)
