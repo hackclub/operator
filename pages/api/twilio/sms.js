@@ -46,7 +46,7 @@ export default async (req, res) => {
   const thursdayPath = 'https://operator-bot-hackclub.herokuapp.com/thursday.jpg'
   //'./public/thursday.jpg'
   console.log('Thursday Path: ', thursdayPath)
-  const thursday = await fetch(thursdayPath).then(r => r.arrayBuffer())
+  const thursday = await fetch(thursdayPath).then(r => r.body)
   const form = new FormData()
   form.append('file', thursday, {
     filename: 'thursday.jpg',
