@@ -43,8 +43,7 @@ export default async (req, res) => {
   const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
   
   
-  console.log('You are in: ', process.cwd())
-  const thursdayPath = join(__dirname, 'thursday.jpg')
+  const thursdayPath = './public/thursday.jpg'
   console.log('Thursday Path: ', thursdayPath)
   const thursday = fs.readFileSync(thursdayPath)
   const form = new FormData()
