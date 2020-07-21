@@ -107,7 +107,7 @@ export default async (req, res) => {
     
     const uploadFile = async (fileInfo, index) => {
       console.log(`Fetching file ${index}: `, fileInfo)
-      const file = (await fetch(imageUrl)).body
+      const file = (await fetch(fileInfo.url)).body
       const filename = `${fileInfo.fileName}.${fileInfo.fileType}`
       
       console.log(`Uploading file ${index}: `, file)
