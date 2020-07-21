@@ -111,6 +111,7 @@ export default async (req, res) => {
       const filename = `${fileInfo.fileName}.${fileInfo.fileType}`
       
       console.log(`Uploading file ${index}: `, file)
+      
       const slackUploadResponse = await slack.files.upload({
         token: userToken,
         filename,
@@ -118,7 +119,14 @@ export default async (req, res) => {
       })
         
       console.log(`Upload complete for file ${index}: `, slackUploadResponse)
-      return slackUploadResponse.file.url_private
+      
+      const slackMakePublicResponse = await slack.files.sharedPublicUrl({
+        token: userToken,
+        file: slackUploadResponse.file.id
+      })
+      console.log(`File ${index} is now marked public: `, slackMakePublicResponse)
+      
+      return slackMakePublicResponse.file.permalink_public
     }
 
     const slackFileUrls = await Promise.all(_.map(media, uploadFile))
