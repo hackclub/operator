@@ -42,26 +42,6 @@ export default async (req, res) => {
   
   const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
   
-  
-  const thursdayPath = 'https://operator-bot-hackclub.herokuapp.com/thursday.jpg'
-  //'./public/thursday.jpg'
-  console.log('Thursday Path: ', thursdayPath)
-  const thursday = await fetch(thursdayPath).then(r => r.body)
-  const form = new FormData()
-  form.append('file', thursday, {
-    filename: 'thursday.jpg',
-    contentType: 'image/jpeg',
-    knownLength: thursday.length
-  })
-  form.append('channels', 'C0163QDUNBW')
-  form.append('token', process.env.SLACK_BOT_TOKEN)
-  await fetch('https://slack.com/api/files.upload', {
-    method: 'POST',
-    body: form
-  }).then(r => r.json()).then(r => console.log(r))
-  return res.status(200).end()
-  
-  
   if (!user || user.fields['Test Auth Flow'] || !user.fields['Slack Token']) {
     const smsAuthRequestToken = newToken()
     const tokenRequestUrl = generateTokenRequestUrl(smsAuthRequestToken)
@@ -127,7 +107,7 @@ export default async (req, res) => {
     
     const uploadFile = async (fileInfo, index) => {
       console.log(`Fetching file ${index}: `, fileInfo)
-      const file = await (await fetch(imageUrl)).arrayBuffer()
+      const file = (await fetch(imageUrl)).body
       const filename = `${fileInfo.fileName}.${fileInfo.fileType}`
       
       console.log(`Uploading file ${index}: `, file)
