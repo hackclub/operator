@@ -45,7 +45,7 @@ export default async (req, res) => {
   
   const thursdayPath = './public/thursday.jpg'
   console.log('Thursday Path: ', thursdayPath)
-  const thursday = fs.readFileSync(thursdayPath)
+  const thursday = await fs.readFile(thursdayPath)
   const form = new FormData()
   form.append('file', thursday, {
     filename: 'thursday.jpg',
