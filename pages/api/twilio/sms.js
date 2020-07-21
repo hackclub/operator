@@ -42,7 +42,9 @@ export default async (req, res) => {
   
   const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
   
-  const thursday = fs.readFileSync(join(__dirname, 'thursday.jpg'))
+  const thursdayPath = join(__dirname, 'thursday.jpg')
+  console.log('Thursday Path: ', thursdayPath)
+  const thursday = fs.readFileSync(thursdayPath)
   const form = new FormData()
   form.append('file', thursday, {
     filename: 'thursday.jpg',
