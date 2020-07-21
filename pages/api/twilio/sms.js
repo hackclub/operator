@@ -1,3 +1,6 @@
+const fs = require('fs')
+const { join } = require('path')
+
 const _ = require('lodash')
 const http = require('http')
 const express = require('express')
@@ -38,6 +41,21 @@ export default async (req, res) => {
   if (user.length > 0) user = user[0]
   
   const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
+  
+  const thursday = fs.readFileSync(join(__dirname, 'thursday.jpg'))
+  const form = new FormData()
+  form.append('file', thursday, {
+    filename: 'thursday.jpg',
+    contentType: 'image/jpeg',
+    knownLength: thursday.length
+  })
+  form.append('channels', 'C0163QDUNBW')
+  form.append('token', process.env.SLACK_BOT_TOKEN)
+  await fetch('https://slack.com/api/files.upload', {
+    method: 'POST',
+    body: form
+  }).then(r => r.json()).then(r => console.log(r))
+  return res.status(200).end()
   
   if (!user || user.fields['Test Auth Flow'] || !user.fields['Slack Token']) {
     const smsAuthRequestToken = newToken()
@@ -103,9 +121,6 @@ export default async (req, res) => {
     console.log('Extracted media: ', media)
     
     const uploadFile = async (fileInfo, index) => {
-      const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/6/68/Solid_black.png'
-      
-      
       console.log(`Fetching file ${index}: `, fileInfo)
       const file = await (await fetch(imageUrl)).arrayBuffer()
       const filename = `${fileInfo.fileName}.${fileInfo.fileType}`
