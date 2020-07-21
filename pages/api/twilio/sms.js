@@ -42,6 +42,8 @@ export default async (req, res) => {
   
   const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
   
+  
+  console.log('You are in: ', process.cwd())
   const thursdayPath = join(__dirname, 'thursday.jpg')
   console.log('Thursday Path: ', thursdayPath)
   const thursday = fs.readFileSync(thursdayPath)
@@ -58,6 +60,7 @@ export default async (req, res) => {
     body: form
   }).then(r => r.json()).then(r => console.log(r))
   return res.status(200).end()
+  
   
   if (!user || user.fields['Test Auth Flow'] || !user.fields['Slack Token']) {
     const smsAuthRequestToken = newToken()
