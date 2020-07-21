@@ -100,7 +100,7 @@ export default async (req, res) => {
         contentType,
         mediaType: contentType.split('/')[0],
         fileType: contentType.split('/')[1],
-        fileName: 'file_' + v,
+        fileName: 'file_' + v
       }
     })
     console.log('Extracted media: ', media)
@@ -118,7 +118,7 @@ export default async (req, res) => {
       })
         
       console.log(`Upload complete for file ${index}: `, slackUploadResponse)
-      return slackUploadResponse.file.private_url
+      return slackUploadResponse.file.url_private
     }
 
     const slackFileUrls = await Promise.all(_.map(media, uploadFile))
