@@ -131,7 +131,9 @@ export default async (req, res) => {
     slackResponse = await slack.chat.postMessage({
       text: slackPostText,
       channel: botSpamId,
-      token: userToken
+      token: userToken,
+      unfurl_links: true,
+      unfurl_media: true
     })
   } catch (err) {
     console.log(`Sorry ${userName}, posting your message to slack returned an error: `, err)
