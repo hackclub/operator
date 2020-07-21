@@ -43,9 +43,10 @@ export default async (req, res) => {
   const newToken = () => _.join(_.map(_.range(8), () => _.random(0, 9)), '')
   
   
-  const thursdayPath = './public/thursday.jpg'
+  const thursdayPath = 'https://operator-bot-hackclub.herokuapp.com/thursday.jpg'
+  //'./public/thursday.jpg'
   console.log('Thursday Path: ', thursdayPath)
-  const thursday = await fs.readFile(thursdayPath)
+  const thursday = await fetch(thursdayPath).then(r => r.arrayBuffer())
   const form = new FormData()
   form.append('file', thursday, {
     filename: 'thursday.jpg',
