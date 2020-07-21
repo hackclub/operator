@@ -120,7 +120,7 @@ export default async (req, res) => {
         
       console.log(`Upload complete for file ${index}: `, slackUploadResponse)
       
-      const slackMakePublicResponse = await slack.files.sharedPublicUrl({
+      const slackMakePublicResponse = await slack.files.sharedPublicURL({
         token: userToken,
         file: slackUploadResponse.file.id
       })
