@@ -111,17 +111,14 @@ export default async (req, res) => {
       const filename = `${fileInfo.fileName}.${fileInfo.fileType}`
       
       console.log(`Uploading file ${index}: `, file)
-      const json = await slack.files.upload({
+      const slackUploadResponse = await slack.files.upload({
         token: userToken,
         filename,
         file
-      }).then(r => {
-        console.log('Uploaded! Response (converting to JSON): ', r)
-        return r.json()
       })
         
-      console.log(`Upload complete for file ${index}! Slack’s response: `, json)
-      return json.file.private_url
+      console.log(`Upload complete for file ${index}: `, slackUploadResponse)
+      return slackUploadResponse.file.private_url
     }
 
     const slackFileUrls = await Promise.all(_.map(media, uploadFile))
